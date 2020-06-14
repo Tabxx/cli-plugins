@@ -1,5 +1,6 @@
 const rp = require('request-promise')
 const fs = require('fs')
+const chalk = require('chalk')
 const urlRegx = /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/gi
 let urls = []
 let result = []
@@ -19,7 +20,13 @@ async function checkRequest() {
                     code: response.statusCode,
                 })
             },
-        }).catch((err) => {})
+            timeout: 3000,
+        }).catch((err) => {
+            result.push({
+                url: item,
+                code: err.statusCode || 404,
+            })
+        })
     }
     showResult()
 }
@@ -46,9 +53,13 @@ function showResult() {
         console.log('http check success')
         return
     }
-
+    let t = []
     for (let item of result) {
-        console.log(`${item.url}:${item.code}\n`)
+        if (t.includes(item.url)) continue
+        let code =
+            item.code == 200 ? chalk.green(item.code) : chalk.red(item.code)
+        console.log(`${item.url}:${code}`)
+        t.push(item.url)
     }
     process.exit(0)
 }
