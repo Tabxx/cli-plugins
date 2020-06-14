@@ -1,9 +1,8 @@
 const shell = require('shelljs')
 const original = JSON.parse(process.env.npm_config_argv).original
-const commit = original[3]
+const commit = original[3] || 'auto commit'
 
 shell.exec('git status')
 shell.exec('git add .')
 shell.exec(`git commit -m "${commit}"`)
 shell.exec('git push')
-shell.exit(1)
