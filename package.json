@@ -5,11 +5,14 @@
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "git": "node ./package/git.js"
+        "git": "node ./package/git.js",
+        "http": "node ./package/http.js"
     },
     "author": "",
     "license": "ISC",
     "dependencies": {
+        "request": "^2.88.2",
+        "request-promise": "^4.2.5",
         "shelljs": "^0.8.4"
     }
 }
